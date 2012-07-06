@@ -27,7 +27,7 @@
 #define TreeScope_h
 
 #include "DocumentOrderedMap.h"
-#include "IdRefObserver.h"
+#include "IdTargetObserverRegistry.h"
 #include <wtf/Forward.h>
 #include <wtf/text/AtomicString.h>
 
