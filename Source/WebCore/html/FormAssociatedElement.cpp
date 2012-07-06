@@ -68,8 +68,11 @@ void FormAssociatedElement::insertedInto(ContainerNode* insertionPoint)
         return;
 
     HTMLElement* element = toHTMLElement(this);
-    if (element->fastHasAttribute(formAttr))
+    if (element->fastHasAttribute(formAttr)) {
+        printf("FormAssociatedElement::insertedInto addObserver %s\n", element->fastGetAttribute(formAttr).string().utf8().data());
         element->document()->formController()->registerFormElementWithFormAttribute(this);
+        element->treeScope()->idTargetObserverRegistry()->addObserver(element->fastGetAttribute(formAttr), this);
+    }
 }
 
 void FormAssociatedElement::removedFrom(ContainerNode* insertionPoint)
@@ -219,6 +222,15 @@ String FormAssociatedElement::validationMessage() const
 void FormAssociatedElement::setCustomValidity(const String& error)
 {
     m_customValidationMessage = error;
+}
+
+void FormAssociatedElement::idTargetChanged(const AtomicString& id)
+{
+    // FIXME: this is not an element.
+    //setNeedsStyleRecalc();
+    printf("> FormAssociatedElement::idRefChanged\n");
+    //resetFormOwner();
+    printf("< FormAssociatedElement::idRefChanged\n");
 }
 
 const AtomicString& FormAssociatedElement::name() const

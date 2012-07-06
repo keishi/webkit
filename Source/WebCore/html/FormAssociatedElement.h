@@ -25,6 +25,7 @@
 #define FormAssociatedElement_h
 
 #include "HTMLElement.h"
+#include "IdTargetObserver.h"
 
 namespace WebCore {
 
@@ -34,7 +35,7 @@ class ValidationMessage;
 class ValidityState;
 class VisibleSelection;
 
-class FormAssociatedElement {
+class FormAssociatedElement : public IdTargetObserver {
 public:
     virtual ~FormAssociatedElement();
 
@@ -78,6 +79,8 @@ public:
     virtual String validationMessage() const;
     bool valid() const;
     virtual void setCustomValidity(const String&);
+
+    virtual void idTargetChanged(const AtomicString& id) OVERRIDE;
 
 protected:
     FormAssociatedElement();
