@@ -200,6 +200,7 @@ public:
     bool parseGradientColorStops(CSSParserValueList*, CSSGradientValue*, bool expectComma);
 
     bool parseCrossfade(CSSParserValueList*, RefPtr<CSSValue>&);
+    bool parseElement(CSSParserValueList*, RefPtr<CSSValue>&);
 
 #if ENABLE(CSS_IMAGE_RESOLUTION)
     PassRefPtr<CSSValue> parseImageResolution(CSSParserValueList*);

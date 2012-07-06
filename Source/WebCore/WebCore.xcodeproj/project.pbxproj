@@ -5720,6 +5720,7 @@
 		C33EE5C414FB49610002095A /* BaseClickableWithKeyInputType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C33EE5C214FB49610002095A /* BaseClickableWithKeyInputType.cpp */; };
 		C33EE5C514FB49610002095A /* BaseClickableWithKeyInputType.h in Headers */ = {isa = PBXBuildFile; fileRef = C33EE5C314FB49610002095A /* BaseClickableWithKeyInputType.h */; };
 		C37CDEBD149EF2030042090D /* ColorChooserClient.h in Headers */ = {isa = PBXBuildFile; fileRef = C37CDEBC149EF2030042090D /* ColorChooserClient.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C3E35C1415A6B45400600F47 /* CSSElementValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3E35C1315A6B45400600F47 /* CSSElementValue.cpp */; };
 		C50B561612119D23008B46E0 /* GroupSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C50B561412119D23008B46E0 /* GroupSettings.cpp */; };
 		C50B561712119D23008B46E0 /* GroupSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = C50B561512119D23008B46E0 /* GroupSettings.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C50D0E820FF4272900AC2644 /* StorageNamespace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C50D0E800FF4272900AC2644 /* StorageNamespace.cpp */; };
@@ -12935,6 +12936,8 @@
 		C33EE5C214FB49610002095A /* BaseClickableWithKeyInputType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseClickableWithKeyInputType.cpp; sourceTree = "<group>"; };
 		C33EE5C314FB49610002095A /* BaseClickableWithKeyInputType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseClickableWithKeyInputType.h; sourceTree = "<group>"; };
 		C37CDEBC149EF2030042090D /* ColorChooserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorChooserClient.h; sourceTree = "<group>"; };
+		C3E35C1115A6B2A900600F47 /* CSSElementValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSSElementValue.h; sourceTree = "<group>"; };
+		C3E35C1315A6B45400600F47 /* CSSElementValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSElementValue.cpp; sourceTree = "<group>"; };
 		C50B561412119D23008B46E0 /* GroupSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GroupSettings.cpp; sourceTree = "<group>"; };
 		C50B561512119D23008B46E0 /* GroupSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSettings.h; sourceTree = "<group>"; };
 		C50D0E800FF4272900AC2644 /* StorageNamespace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StorageNamespace.cpp; sourceTree = "<group>"; };
@@ -20825,6 +20828,8 @@
 				2D8FEBDB143E3EF70072502B /* CSSCrossfadeValue.h */,
 				AA0978ED0ABAA6E100874480 /* CSSCursorImageValue.cpp */,
 				AA0978EE0ABAA6E100874480 /* CSSCursorImageValue.h */,
+				C3E35C1315A6B45400600F47 /* CSSElementValue.cpp */,
+				C3E35C1115A6B2A900600F47 /* CSSElementValue.h */,
 				BC64B4CD0CB4298A005F2B62 /* CSSFontFace.cpp */,
 				BC64B4CE0CB4298A005F2B62 /* CSSFontFace.h */,
 				A80E6CBD0A1989CA007FB8C5 /* CSSFontFaceRule.cpp */,
@@ -28234,6 +28239,7 @@
 				50987C26157D676D00BDA835 /* CustomFilterGlobalContext.cpp in Sources */,
 				A882DA201593846A000115ED /* CSSToStyleMap.cpp in Sources */,
 				1FAFBF1815A5FA6E00083A20 /* UTIUtilities.mm in Sources */,
+				C3E35C1415A6B45400600F47 /* CSSElementValue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

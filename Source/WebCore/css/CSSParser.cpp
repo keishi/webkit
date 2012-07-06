@@ -31,6 +31,7 @@
 #include "CSSCanvasValue.h"
 #include "CSSCrossfadeValue.h"
 #include "CSSCursorImageValue.h"
+#include "CSSElementValue.h"
 #include "CSSFontFaceRule.h"
 #include "CSSFontFaceSrcValue.h"
 #include "CSSFunctionValue.h"
@@ -6915,7 +6916,8 @@ bool CSSParser::isGeneratedImageValue(CSSParserValue* val) const
         || equalIgnoringCase(val->function->name, "-webkit-radial-gradient(")
         || equalIgnoringCase(val->function->name, "-webkit-repeating-radial-gradient(")
         || equalIgnoringCase(val->function->name, "-webkit-canvas(")
-        || equalIgnoringCase(val->function->name, "-webkit-cross-fade(");
+        || equalIgnoringCase(val->function->name, "-webkit-cross-fade(")
+        || equalIgnoringCase(val->function->name, "-webkit-element(");
 }
 
 bool CSSParser::parseGeneratedImage(CSSParserValueList* valueList, RefPtr<CSSValue>& value)
@@ -6946,7 +6948,26 @@ bool CSSParser::parseGeneratedImage(CSSParserValueList* valueList, RefPtr<CSSVal
     if (equalIgnoringCase(val->function->name, "-webkit-cross-fade("))
         return parseCrossfade(valueList, value);
 
+    if (equalIgnoringCase(val->function->name, "-webkit-element("))
+        return parseElement(valueList, value);
+
     return false;
+}
+
+bool CSSParser::parseElement(CSSParserValueList* valueList, RefPtr<CSSValue>& element)
+{
+    // Walk the arguments.
+    CSSParserValueList* args = valueList->current()->function->args.get();
+    if (!args || args->size() != 1)
+        return false;
+
+    // The first argument is the element name.  It is an identifier.
+    CSSParserValue* value = args->current();
+    if (!value || value->unit != CSSPrimitiveValue::CSS_IDENT)
+        return false;
+
+    element = CSSElementValue::create(value->string);
+    return true;
 }
 
 bool CSSParser::parseCrossfade(CSSParserValueList* valueList, RefPtr<CSSValue>& crossfade)

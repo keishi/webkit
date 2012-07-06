@@ -129,6 +129,7 @@ protected:
         // Image generator classes.
         CanvasClass,
         CrossfadeClass,
+        ElementClass,
         LinearGradientClass,
         RadialGradientClass,
 

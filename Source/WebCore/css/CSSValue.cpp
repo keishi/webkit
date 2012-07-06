@@ -33,6 +33,7 @@
 #include "CSSCanvasValue.h"
 #include "CSSCrossfadeValue.h"
 #include "CSSCursorImageValue.h"
+#include "CSSElementValue.h"
 #include "CSSFontFaceSrcValue.h"
 #include "CSSFunctionValue.h"
 #include "CSSGradientValue.h"
@@ -138,6 +139,8 @@ String CSSValue::cssText() const
         return static_cast<const CSSCanvasValue*>(this)->customCssText();
     case CursorImageClass:
         return static_cast<const CSSCursorImageValue*>(this)->customCssText();
+    case ElementClass:
+        return static_cast<const CSSElementValue*>(this)->customCssText();
     case FontClass:
         return static_cast<const FontValue*>(this)->customCssText();
     case FontFaceSrcClass:
@@ -246,6 +249,9 @@ void CSSValue::destroy()
         return;
     case CursorImageClass:
         delete static_cast<CSSCursorImageValue*>(this);
+        return;
+    case ElementClass:
+        delete static_cast<CSSElementValue*>(this);
         return;
     case FontClass:
         delete static_cast<FontValue*>(this);
