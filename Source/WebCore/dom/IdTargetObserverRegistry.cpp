@@ -81,7 +81,7 @@ void IdTargetObserverRegistry::notifyObservers(const AtomicString& id)
         return;
 
     for (HashSet<IdTargetObserver*>::const_iterator it = set->begin(); it != set->end(); ++it)
-        (*it)->idRefChanged(id);
+        (*it)->idTargetChanged(id);
 }
 
 void IdTargetObserverRegistry::notifyAllObservers()
