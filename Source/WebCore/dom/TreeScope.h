@@ -27,6 +27,7 @@
 #define TreeScope_h
 
 #include "DocumentOrderedMap.h"
+#include "IdRefObserver.h"
 #include <wtf/Forward.h>
 #include <wtf/text/AtomicString.h>
 
@@ -82,6 +83,8 @@ public:
 
     ContainerNode* rootNode() const { return m_rootNode; }
 
+    IdTargetObserverRegistry* idTargetObserverRegistry() const { return m_idTargetObserverRegistry.get(); }
+
 protected:
     TreeScope(ContainerNode*);
     virtual ~TreeScope();
@@ -94,6 +97,8 @@ private:
 
     DocumentOrderedMap m_elementsById;
     DocumentOrderedMap m_imageMapsByName;
+
+    OwnPtr<IdTargetObserverRegistry> m_idTargetObserverRegistry;
 
     unsigned m_numNodeListCaches;
 
