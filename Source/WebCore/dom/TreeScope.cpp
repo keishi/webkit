@@ -54,6 +54,7 @@ using namespace HTMLNames;
 TreeScope::TreeScope(ContainerNode* rootNode)
     : m_rootNode(rootNode)
     , m_parentTreeScope(0)
+    , m_idTargetObserverRegistry(adoptPtr(new IdTargetObserverRegistry))
     , m_numNodeListCaches(0)
 {
     ASSERT(rootNode);
@@ -93,11 +94,15 @@ Element* TreeScope::getElementById(const AtomicString& elementId) const
 void TreeScope::addElementById(const AtomicString& elementId, Element* element)
 {
     m_elementsById.add(elementId.impl(), element);
+
+    m_idTargetObserverRegistry->notifyObservers(elementId);
 }
 
 void TreeScope::removeElementById(const AtomicString& elementId, Element* element)
 {
     m_elementsById.remove(elementId.impl(), element);
+
+    m_idTargetObserverRegistry->notifyObservers(elementId);
 }
 
 Node* TreeScope::ancestorInThisScope(Node* node) const
