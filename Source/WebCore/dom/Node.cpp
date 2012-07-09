@@ -1968,12 +1968,12 @@ unsigned short Node::compareDocumentPosition(Node* otherNode)
     
     Node* start1 = attr1 ? attr1->ownerElement() : this;
     Node* start2 = attr2 ? attr2->ownerElement() : otherNode;
-    
+    printf("@-A\n");
     // If either of start1 or start2 is null, then we are disconnected, since one of the nodes is
     // an orphaned attribute node.
     if (!start1 || !start2)
         return DOCUMENT_POSITION_DISCONNECTED | DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
-
+printf("@A\n");
     Vector<Node*, 16> chain1;
     Vector<Node*, 16> chain2;
     if (attr1)
@@ -2002,14 +2002,14 @@ unsigned short Node::compareDocumentPosition(Node* otherNode)
         ASSERT_NOT_REACHED();
         return DOCUMENT_POSITION_DISCONNECTED;
     }
-
+printf("@B %d %d %d\n", start1->inDocument(), start2->inDocument(), start1->document() != start2->document());
     // If one node is in the document and the other is not, we must be disconnected.
     // If the nodes have different owning documents, they must be disconnected.  Note that we avoid
     // comparing Attr nodes here, since they return false from inDocument() all the time (which seems like a bug).
     if (start1->inDocument() != start2->inDocument() ||
         start1->document() != start2->document())
         return DOCUMENT_POSITION_DISCONNECTED | DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
-
+printf("@C\n");
     // We need to find a common ancestor container, and then compare the indices of the two immediate children.
     Node* current;
     for (current = start1; current; current = current->parentNode())
@@ -2043,7 +2043,7 @@ unsigned short Node::compareDocumentPosition(Node* otherNode)
             return DOCUMENT_POSITION_PRECEDING;
         }
     }
-    
+    printf("@D\n");
     // There was no difference between the two parent chains, i.e., one was a subset of the other.  The shorter
     // chain is the ancestor.
     return index1 < index2 ? 
@@ -2305,6 +2305,7 @@ ScriptExecutionContext* Node::scriptExecutionContext() const
 
 Node::InsertionNotificationRequest Node::insertedInto(ContainerNode* insertionPoint)
 {
+    printf("Node::insertedInto\n");
     ASSERT(insertionPoint->inDocument() || isContainerNode());
     if (insertionPoint->inDocument())
         setFlag(InDocumentFlag);

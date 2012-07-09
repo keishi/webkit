@@ -83,6 +83,7 @@ unsigned HTMLFormCollection::calcLength() const
 
 Node* HTMLFormCollection::item(unsigned index) const
 {
+  printf("HTMLFormCollection::item %d\n", index);
     invalidateCacheIfNeeded();
 
     if (isItemCacheValid() && cachedItemOffset() == index)

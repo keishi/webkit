@@ -63,6 +63,7 @@ void FormAssociatedElement::didMoveToNewDocument(Document* oldDocument)
 
 void FormAssociatedElement::insertedInto(ContainerNode* insertionPoint)
 {
+    printf("FormAssociatedElement::insertedInto\n");
     resetFormOwner();
     if (!insertionPoint->inDocument())
         return;
@@ -147,7 +148,15 @@ void FormAssociatedElement::formWillBeDestroyed()
 
 void FormAssociatedElement::resetFormOwner()
 {
-    setForm(findAssociatedForm(toHTMLElement(this), m_form));
+    HTMLFormElement* form = findAssociatedForm(toHTMLElement(this), m_form);
+    if (form) {
+      const AtomicString id = form->fastGetAttribute(idAttr);
+      if (id.isNull())
+        printf("resetFormOwner to NULL\n");
+      else
+        printf("resetFormOwner to %s\n", form->fastGetAttribute(idAttr).string().utf8().data());
+    }
+    setForm(form);
 }
 
 void FormAssociatedElement::formAttributeChanged()
@@ -229,7 +238,9 @@ void FormAssociatedElement::idTargetChanged(const AtomicString& id)
     // FIXME: this is not an element.
     //setNeedsStyleRecalc();
     printf("> FormAssociatedElement::idRefChanged\n");
-    //resetFormOwner();
+    const HTMLElement* element = toHTMLElement(this);
+    printf("> document: %d\n", element->inDocument());
+    resetFormOwner();
     printf("< FormAssociatedElement::idRefChanged\n");
 }
 

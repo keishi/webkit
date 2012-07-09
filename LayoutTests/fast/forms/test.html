@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<script src="../../fast/js/resources/js-test-pre.js"></script>
+</head>
+<body>
+<p id="description"></p>
+<div id="console"></div>
+
+<script>
+description("This test examines the order of the elements attribute of a form element.");
+
+var container = document.createElement('div');
+document.body.appendChild(container);
+container.innerHTML = '<input name=victim id=before1 form=owner />' +
+    '<input name=victim id=before2 form=owner />' +
+    '<form id=owner action= method=GET>' +
+    '    <input name=victim id=inner1 form=owner />' +
+    '    <input name=victim id=inner2 form=owner />' +
+    '</form>' +
+    '<input name=victim id=after1 form=owner />' +
+    '<input name=victim id=after2 form=owner />';
+
+var owner = document.getElementById('owner');
+var before1 = document.getElementById('before1');
+var before2 = document.getElementById('before2');
+var inner1 = document.getElementById('inner1');
+var inner2 = document.getElementById('inner2');
+var after1 = document.getElementById('after1');
+var after2 = document.getElementById('after2');
+
+debug('- Test for the case where some elements are outside of the form.');
+shouldBe('owner.elements.length', '6');
+shouldBe('owner.elements[0].id', '"before1"');
+shouldBe('owner.elements[1].id', '"before2"');
+shouldBe('owner.elements[2].id', '"inner1"');
+shouldBe('owner.elements[3].id', '"inner2"');
+shouldBe('owner.elements[4].id', '"after1"');
+shouldBe('owner.elements[5].id', '"after2"');
+</script>
+<script src="../../fast/js/resources/js-test-post.js"></script>
+</body>
+</html>

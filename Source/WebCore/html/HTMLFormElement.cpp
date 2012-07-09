@@ -135,6 +135,7 @@ bool HTMLFormElement::rendererIsNeeded(const NodeRenderingContext& context)
 
 Node::InsertionNotificationRequest HTMLFormElement::insertedInto(ContainerNode* insertionPoint)
 {
+    printf("HTMLFormElement::insertedInto\n");
     HTMLElement::insertedInto(insertionPoint);
     if (insertionPoint->inDocument())
         return InsertionShouldCallDidNotifyDescendantInsertions;
@@ -447,7 +448,7 @@ unsigned HTMLFormElement::formElementIndexWithFormAttribute(Element* element)
         ++m_associatedElementsBeforeIndex;
         ++m_associatedElementsAfterIndex;
     }
-
+    printf("HTMLFormElement::formElementIndexWithFormAttribute %d %d\n", m_associatedElementsBeforeIndex, m_associatedElementsAfterIndex);
     if (m_associatedElements.isEmpty())
         return 0;
 
@@ -456,13 +457,22 @@ unsigned HTMLFormElement::formElementIndexWithFormAttribute(Element* element)
     unsigned left = 0, right = m_associatedElements.size() - 1;
     while (left != right) {
         unsigned middle = left + ((right - left) / 2);
+        printf("> compareDocumentPosition %d %d %d %d\n", element->inDocument(), toHTMLElement(m_associatedElements[middle])->inDocument(), middle, this->inDocument());
+        HTMLElement* el = toHTMLElement(m_associatedElements[middle]);
+        const AtomicString id = el->fastGetAttribute(idAttr);
+        if (id.isNull())
+          printf("compareDocumentPosition to NULL\n");
+        else
+          printf("compareDocumentPosition to %s\n", id.string().utf8().data());
         position = element->compareDocumentPosition(toHTMLElement(m_associatedElements[middle]));
+        printf("< compareDocumentPosition\n");
+        printf("  %d %d %d\n", position, left, right);
         if (position & DOCUMENT_POSITION_FOLLOWING)
             right = middle;
         else
             left = middle + 1;
     }
-
+    printf("TMP %d %d\n", left, right);
     position = element->compareDocumentPosition(toHTMLElement(m_associatedElements[left]));
     if (position & DOCUMENT_POSITION_FOLLOWING)
         return left;
@@ -471,12 +481,14 @@ unsigned HTMLFormElement::formElementIndexWithFormAttribute(Element* element)
 
 unsigned HTMLFormElement::formElementIndex(FormAssociatedElement* associatedElement)
 {
+    printf(">> HTMLFormElement::formElementIndex %d %d << \n", m_associatedElementsBeforeIndex, m_associatedElementsAfterIndex);
     HTMLElement* element = toHTMLElement(associatedElement);
     // Treats separately the case where this element has the form attribute
     // for performance consideration.
-    if (element->fastHasAttribute(formAttr))
+    if (element->fastHasAttribute(formAttr)) {
+        printf("return A\n");
         return formElementIndexWithFormAttribute(element);
-
+    }
     // Check for the special case where this element is the very last thing in
     // the form's tree of children; we don't want to walk the entire tree in that
     // common case that occurs during parsing; instead we'll just return a value
@@ -486,6 +498,7 @@ unsigned HTMLFormElement::formElementIndex(FormAssociatedElement* associatedElem
         for (Node* node = this; node; node = node->traverseNextNode(this)) {
             if (node == element) {
                 ++m_associatedElementsAfterIndex;
+                printf("return B\n");
                 return i;
             }
             if (node->isHTMLElement()
@@ -495,12 +508,16 @@ unsigned HTMLFormElement::formElementIndex(FormAssociatedElement* associatedElem
                 ++i;
         }
     }
+    printf("return C\n");
     return m_associatedElementsAfterIndex++;
 }
 
 void HTMLFormElement::registerFormElement(FormAssociatedElement* e)
 {
-    m_associatedElements.insert(formElementIndex(e), e);
+    unsigned index = formElementIndex(e);
+    HTMLElement* el = toHTMLElement(e);
+    printf("HTMLFormElement::registerFormElement %d %d %d %d\n", index, m_associatedElementsBeforeIndex, m_associatedElementsAfterIndex, el->inDocument());
+    m_associatedElements.insert(index, e);
 }
 
 void HTMLFormElement::removeFormElement(FormAssociatedElement* e)
@@ -512,7 +529,7 @@ void HTMLFormElement::removeFormElement(FormAssociatedElement* e)
     }
     ASSERT(index < m_associatedElements.size());
     if (index < m_associatedElementsBeforeIndex)
-        --m_associatedElementsBeforeIndex;
+        --m_associatedElementsBeforeIndex;printf("HTMLFormElement::removeFormElement %d\n", m_associatedElementsBeforeIndex);
     if (index < m_associatedElementsAfterIndex)
         --m_associatedElementsAfterIndex;
     removeFromVector(m_associatedElements, e);
@@ -537,6 +554,7 @@ void HTMLFormElement::removeImgElement(HTMLImageElement* e)
 
 HTMLCollection* HTMLFormElement::elements()
 {
+    printf("== HTMLFormElement::elements() %d %d==\n", m_associatedElementsBeforeIndex, m_associatedElementsAfterIndex);
     return ensureCachedHTMLCollection(FormControls);
 }
 

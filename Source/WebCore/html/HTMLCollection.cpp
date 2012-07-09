@@ -92,7 +92,7 @@ void HTMLCollection::invalidateCacheIfNeeded() const
 
     if (cacheTreeVersion() == docversion)
         return;
-
+    printf("HTMLCollection::invalidateCacheIfNeeded: Clearing cache\n");
     clearCache(docversion);
 }
 
